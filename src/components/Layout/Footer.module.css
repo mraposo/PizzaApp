@@ -1,0 +1,11 @@
+.footer {
+    position: static;
+
+    height: 2rem;
+    background-color: #494949;
+    color: white;
+
+    font-size: 10px;
+    text-align: center;
+    text-shadow: 3px 2px #000000;
+  }

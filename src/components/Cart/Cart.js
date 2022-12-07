@@ -30,17 +30,18 @@ const Cart = (props) => {
   );
 
   return (
+    // TODO: Totaal alleen laten zien als er items in de lijst zitten anders niks laten zien
     <Modal onClose={props.onClose}>
       {cartItems}
       <div className={classes.total}>
-        <span>Total Amount</span>
+        <span>Totaal:</span>
         <span>{totalAmount}</span>
       </div>
       <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>
-          Close
+          Sluiten
         </button>
-        {hasItems && <button className={classes.button}>Order</button>}
+        {hasItems && <button className={classes.button}>Bestellen</button>}
       </div>
     </Modal>
   );
