@@ -5,33 +5,39 @@ import MealItem from './MealItem/MealItem';
 const DUMMY_MEALS = [
   {
     id: 'm1',
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99,
+    name: 'Margherita',
+    description: 'Tomaat, mozzarella, basilicum',
+    price: 11.0,
   },
   {
     id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
+    name: 'Peperoni',
+    description: 'Tomaat, mozzarella, geroosterde paprika, Nduja, rode ui',
     price: 16.5,
   },
   {
     id: 'm3',
-    name: 'Barbecue Burger',
-    description: 'American, raw, meaty',
-    price: 12.99,
+    name: 'Burrata',
+    description: 'Tomaat, burrata, coppa di Parma, rucola, tomaatjes',
+    price: 17.5,
   },
   {
     id: 'm4',
-    name: 'Green Bowl',
-    description: 'Healthy...and green...',
-    price: 18.99,
+    name: 'Salame piccante',
+    description: 'Tomaat, mozzarella, pittige salami',
+    price: 13.75,
   },
   {
     id: 'm5',
-    name: 'Testing Yellow Bowl',
-    description: 'Blalblalblalblalblaaa nbalalaaa',
-    price: 18.99,
+    name: 'Napoletana',
+    description: 'Tomaat, mozzarella, ansjovis, kappertjes, oregano',
+    price: 14.25,
+  },
+  {
+    id: 'm6',
+    name: 'Capricciosa',
+    description: 'Tomaat, mozzarella, artisjok, ham, champignons, olijven',
+    price: 16.0,
   },
 ];
 
