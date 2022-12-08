@@ -1,10 +1,15 @@
-import { useContext } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import Modal from '../UI/Modal';
 import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
+import Checkout from './Checkout';
 
 const Cart = (props) => {
+  const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
+
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `€${cartCtx.totalAmount.toFixed(2)}`;
@@ -13,19 +18,33 @@ const Cart = (props) => {
   // listItems.toString();
   // console.log(listItems);
 
-  const handleOrder = (props) => {
-    console.log(cartCtx.items);
-    console.log('Total amount: ' + totalAmount);
-
-    return <h1>{totalAmount}</h1>;
-  };
-
   const cartItemRemoveHandler = (id) => {
     cartCtx.removeItem(id);
   };
 
   const cartItemAddHandler = (item) => {
     cartCtx.addItem(item);
+  };
+
+  const orderHandler = () => {
+    setIsCheckout(true);
+  };
+
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
+      'https://react-fefa1-default-rtdb.europe-west1.firebasedatabase.app/bestellingen.json',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: cartCtx.items,
+        }),
+      }
+    );
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
   };
 
   const cartItems = (
@@ -43,28 +62,56 @@ const Cart = (props) => {
     </ul>
   );
 
-  return (
-    // TODO: Totaal alleen laten zien als er items in de lijst zitten anders niks laten zien
-    <Modal onClose={props.onClose}>
+  const modalActions = (
+    <div className={classes.actions}>
+      <button className={classes['button--alt']} onClick={props.onClose}>
+        Sluiten
+      </button>
+      {hasItems && (
+        <button className={classes.button} onClick={orderHandler}>
+          Bestellen
+        </button>
+      )}
+    </div>
+  );
+
+  const cartModalContent = (
+    <React.Fragment>
       {cartItems}
       <div className={classes.total}>
-        {hasItems && <span>Totaal:</span> ? (
-          <span>Totaal:</span>
-        ) : (
-          <span>Nog niks besteld!</span>
-        )}
+        <span>Totaal:</span>
         <span>{totalAmount}</span>
       </div>
-      <div className={classes.actions}>
-        <button className={classes['button--alt']} onClick={props.onClose}>
-          Sluiten
-        </button>
-        {hasItems && (
-          <button className={classes.button} onClick={handleOrder}>
-            Bestellen
+      {isCheckout && (
+        <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />
+      )}
+      {!isCheckout && modalActions}
+    </React.Fragment>
+  );
+
+  const isSubmittingModalContent = (
+    <p className="">Bestelling verzenden.....</p>
+  );
+  const didSubmitModalContent = (
+    <React.Fragment>
+      <div>
+        <p className={classes.order}>
+          Bestelling bevestigd! Pizza komt er zo aan!!
+        </p>
+        <div className={classes.actions}>
+          <button className={classes['button--alt']} onClick={props.onClose}>
+            Sluiten
           </button>
-        )}
+        </div>
       </div>
+    </React.Fragment>
+  );
+
+  return (
+    <Modal onClose={props.onClose}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };
