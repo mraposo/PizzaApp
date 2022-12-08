@@ -10,9 +10,23 @@ const Cart = (props) => {
   const totalAmount = `€${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
-  const cartItemRemoveHandler = (id) => {};
+  // listItems.toString();
+  // console.log(listItems);
 
-  const cartItemAddHandler = (item) => {};
+  const handleOrder = (props) => {
+    console.log(cartCtx.items);
+    console.log('Total amount: ' + totalAmount);
+
+    return <h1>{totalAmount}</h1>;
+  };
+
+  const cartItemRemoveHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
+
+  const cartItemAddHandler = (item) => {
+    cartCtx.addItem(item);
+  };
 
   const cartItems = (
     <ul className={classes['cart-items']}>
@@ -34,14 +48,22 @@ const Cart = (props) => {
     <Modal onClose={props.onClose}>
       {cartItems}
       <div className={classes.total}>
-        <span>Totaal:</span>
+        {hasItems && <span>Totaal:</span> ? (
+          <span>Totaal:</span>
+        ) : (
+          <span>Nog niks besteld!</span>
+        )}
         <span>{totalAmount}</span>
       </div>
       <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>
           Sluiten
         </button>
-        {hasItems && <button className={classes.button}>Bestellen</button>}
+        {hasItems && (
+          <button className={classes.button} onClick={handleOrder}>
+            Bestellen
+          </button>
+        )}
       </div>
     </Modal>
   );

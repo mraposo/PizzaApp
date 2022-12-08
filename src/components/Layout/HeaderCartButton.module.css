@@ -1,4 +1,6 @@
 .button {
+    margin-left: 2%;
+    /* margin-right: %; */
     cursor: pointer;
     font: inherit;
     border: none;
