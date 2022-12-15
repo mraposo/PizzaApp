@@ -59,6 +59,7 @@ const Checkout = (props) => {
       street: enteredStreet,
       city: enteredCity,
       postalCode: enteredPostal,
+      phone: enteredPhone,
     });
   };
 
